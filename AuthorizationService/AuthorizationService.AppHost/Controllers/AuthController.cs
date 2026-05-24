@@ -15,6 +15,4 @@ public class AuthController : ControllerBase
         _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
-    
-    
 }

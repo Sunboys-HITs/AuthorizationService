@@ -2,6 +2,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthorizationService.AppHost", "AuthorizationService.AppHost\AuthorizationService.AppHost.csproj", "{1E5932D5-15FB-474C-A012-0A3FB9116604}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthorizationService.Db", "AuthorizationService.Db\AuthorizationService.Db.csproj", "{3B8AAB4D-DA28-4446-858B-C2999829C121}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +14,9 @@ Global
 		{1E5932D5-15FB-474C-A012-0A3FB9116604}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1E5932D5-15FB-474C-A012-0A3FB9116604}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1E5932D5-15FB-474C-A012-0A3FB9116604}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3B8AAB4D-DA28-4446-858B-C2999829C121}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3B8AAB4D-DA28-4446-858B-C2999829C121}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3B8AAB4D-DA28-4446-858B-C2999829C121}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3B8AAB4D-DA28-4446-858B-C2999829C121}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

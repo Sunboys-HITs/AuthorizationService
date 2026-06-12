@@ -6,6 +6,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthorizationService.Db", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthorizationService.Application", "AuthorizationService.Application\AuthorizationService.Application.csproj", "{07C568BF-54E3-4F95-A2F1-23CE1FA34956}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthorizationService.Tests", "AuthorizationService.Tests\AuthorizationService.Tests.csproj", "{4C44595D-9441-42BE-909D-E8F67B94753F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{07C568BF-54E3-4F95-A2F1-23CE1FA34956}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{07C568BF-54E3-4F95-A2F1-23CE1FA34956}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{07C568BF-54E3-4F95-A2F1-23CE1FA34956}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4C44595D-9441-42BE-909D-E8F67B94753F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4C44595D-9441-42BE-909D-E8F67B94753F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4C44595D-9441-42BE-909D-E8F67B94753F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4C44595D-9441-42BE-909D-E8F67B94753F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

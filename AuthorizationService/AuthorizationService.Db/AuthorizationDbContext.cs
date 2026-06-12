@@ -29,7 +29,14 @@ public sealed class AuthorizationDbContext : DbContext
                 .HasMaxLength(256)
                 .IsRequired();
 
+            entity.Property(user => user.NormalizedEmail)
+                .HasMaxLength(256)
+                .IsRequired();
+
             entity.HasIndex(user => user.Email)
+                .IsUnique();
+
+            entity.HasIndex(user => user.NormalizedEmail)
                 .IsUnique();
 
             entity.Property(user => user.PasswordHash)
@@ -48,7 +55,8 @@ public sealed class AuthorizationDbContext : DbContext
             {
                 Id = AdminUserId,
                 Email = "admin@authorization.local",
-                PasswordHash = "CHANGE_ME_ADMIN_PASSWORD_HASH",
+                NormalizedEmail = "admin@authorization.local",
+                PasswordHash = "100000.QXV0aFNlcnZpY2VTYWx0IQ==.QmOpTqYWKwlriUhYChON7+rquCZp7TVEivWggdbbAYo=",
                 Role = UserRole.Admin,
                 CreatedAtUtc = AdminCreatedAtUtc,
                 UpdatedAtUtc = null

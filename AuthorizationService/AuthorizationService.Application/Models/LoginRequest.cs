@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace AuthorizationService.AppHost.Models;
+namespace AuthorizationService.Application.Models;
 
 public sealed class LoginRequest
 {

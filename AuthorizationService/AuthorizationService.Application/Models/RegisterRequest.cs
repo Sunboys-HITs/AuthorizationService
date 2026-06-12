@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using AuthorizationService.Db.Models;
 
-namespace AuthorizationService.AppHost.Models;
+namespace AuthorizationService.Application.Models;
 
 public sealed class RegisterRequest
 {

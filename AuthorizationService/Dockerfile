@@ -1,11 +1,10 @@
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 WORKDIR /src
 
-COPY AuthorizationService.sln ./
 COPY AuthorizationService.AppHost/AuthorizationService.AppHost.csproj AuthorizationService.AppHost/
 COPY AuthorizationService.Application/AuthorizationService.Application.csproj AuthorizationService.Application/
 COPY AuthorizationService.Db/AuthorizationService.Db.csproj AuthorizationService.Db/
-RUN dotnet restore AuthorizationService.sln
+RUN dotnet restore AuthorizationService.AppHost/AuthorizationService.AppHost.csproj
 
 COPY . .
 RUN dotnet publish AuthorizationService.AppHost/AuthorizationService.AppHost.csproj \

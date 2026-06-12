@@ -3,6 +3,8 @@ WORKDIR /src
 
 COPY AuthorizationService.sln ./
 COPY AuthorizationService.AppHost/AuthorizationService.AppHost.csproj AuthorizationService.AppHost/
+COPY AuthorizationService.Application/AuthorizationService.Application.csproj AuthorizationService.Application/
+COPY AuthorizationService.Db/AuthorizationService.Db.csproj AuthorizationService.Db/
 RUN dotnet restore AuthorizationService.sln
 
 COPY . .

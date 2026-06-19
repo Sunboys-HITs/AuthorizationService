@@ -52,6 +52,19 @@ jobs:
       - name: Ensure namespace exists
         run: kubectl create namespace "$NAMESPACE" --dry-run=client -o yaml | kubectl apply -f -
 
+      - name: Configure database connection
+        env:
+          AUTH_DB_PASSWORD: ${{ secrets.AUTH_DB_PASSWORD }}
+        run: |
+          test -n "$AUTH_DB_PASSWORD" || {
+            echo 'AUTH_DB_PASSWORD GitHub Actions secret is not configured' >&2
+            exit 1
+          }
+          kubectl -n "$NAMESPACE" create secret generic auth-database \
+            --from-literal=connection-string="Host=auth-postgres.infra.svc.cluster.local;Port=5432;Database=auth_service;Username=auth_service;Password=$AUTH_DB_PASSWORD" \
+            --dry-run=client \
+            -o yaml | kubectl apply -f -
+
       - name: Deploy manifests
         run: sed "s|IMAGE_PLACEHOLDER|${IMAGE}|g" k8s/auth-service.yaml | kubectl apply -f -
 

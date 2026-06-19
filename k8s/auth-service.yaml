@@ -27,6 +27,11 @@ spec:
               value: Production
             - name: ASPNETCORE_URLS
               value: http://+:8080
+            - name: ConnectionStrings__AuthorizationDb
+              valueFrom:
+                secretKeyRef:
+                  name: auth-database
+                  key: connection-string
           readinessProbe:
             httpGet:
               path: /api/auth/health/ready

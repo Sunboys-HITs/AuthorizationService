@@ -4,6 +4,7 @@ using AuthorizationService.Application;
 using AuthorizationService.Application.Services;
 using AuthorizationService.Db;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -43,6 +44,15 @@ app.MapHealthChecks("/api/auth/health/ready");
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
+}
+
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<AuthorizationDbContext>();
+    if (dbContext.Database.IsRelational())
+    {
+        await dbContext.Database.MigrateAsync();
+    }
 }
 
 app.UseHttpsRedirection();

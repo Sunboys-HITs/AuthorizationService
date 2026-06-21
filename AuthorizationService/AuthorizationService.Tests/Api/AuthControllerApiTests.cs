@@ -146,19 +146,21 @@ public sealed class AuthControllerApiTests
         await AssertStatusCodeAsync(HttpStatusCode.Unauthorized, response);
     }
 
-    [Fact(DisplayName = "КОГДА validate вызывается с токеном ТОГДА API возвращает OK и X-User-Id")]
-    public async Task Validate_ReturnsOkAndUserIdHeader_WhenTokenIsValid()
+    [Fact(DisplayName = "КОГДА validate вызывается с токеном ТОГДА API возвращает OK и user headers")]
+    public async Task Validate_ReturnsOkAndUserHeaders_WhenTokenIsValid()
     {
         await using var factory = new AuthApiFactory();
         using var client = factory.CreateClient();
-        var authResponse = await RegisterAndLoginAsync(client, "user@example.com", UserRole.User);
+        var authResponse = await RegisterAndLoginAsync(client, "manager@example.com", UserRole.Manager);
         client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", authResponse.Token);
 
         var response = await client.GetAsync("/api/auth/validate");
 
         response.EnsureSuccessStatusCode();
-        Assert.True(response.Headers.TryGetValues("X-User-Id", out var values));
-        Assert.Contains(authResponse.UserId.ToString(), values);
+        Assert.True(response.Headers.TryGetValues("X-User-Id", out var userIdValues));
+        Assert.Contains(authResponse.UserId.ToString(), userIdValues);
+        Assert.True(response.Headers.TryGetValues("X-User-Role", out var roleValues));
+        Assert.Contains(UserRole.Manager.ToString(), roleValues);
     }
 
     [Fact(DisplayName = "КОГДА validate admin вызывается пользователем ТОГДА API возвращает Forbidden")]

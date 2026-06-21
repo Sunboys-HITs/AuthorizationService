@@ -52,10 +52,49 @@ public sealed class ValidateTokenQueryHandlerTests
         Assert.Null(result);
     }
 
+    [Fact(DisplayName = "КОГДА role claim отсутствует ТОГДА validate возвращает null")]
+    public async Task Handle_ReturnsNull_WhenRoleClaimIsMissing()
+    {
+        await using var dbContext = TestDbFactory.CreateDbContext();
+        var repository = new UserRepository(dbContext);
+        var user = CreateUser(UserRole.User);
+        await repository.AddAsync(user, CancellationToken.None);
+        await repository.SaveChangesAsync(CancellationToken.None);
+        var handler = new ValidateTokenQueryHandler(repository);
+
+        var principal = new ClaimsPrincipal(new ClaimsIdentity(
+            new[] { new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()) },
+            authenticationType: "Test"));
+        var result = await handler.Handle(new ValidateTokenQuery(principal), CancellationToken.None);
+
+        Assert.Null(result);
+    }
+
+    [Fact(DisplayName = "КОГДА role claim не совпадает с ролью пользователя ТОГДА validate возвращает null")]
+    public async Task Handle_ReturnsNull_WhenRoleClaimDoesNotMatchUserRole()
+    {
+        await using var dbContext = TestDbFactory.CreateDbContext();
+        var repository = new UserRepository(dbContext);
+        var user = CreateUser(UserRole.Admin);
+        await repository.AddAsync(user, CancellationToken.None);
+        await repository.SaveChangesAsync(CancellationToken.None);
+        var handler = new ValidateTokenQueryHandler(repository);
+
+        var result = await handler.Handle(
+            new ValidateTokenQuery(CreatePrincipal(user.Id)),
+            CancellationToken.None);
+
+        Assert.Null(result);
+    }
+
     private static ClaimsPrincipal CreatePrincipal(Guid userId)
     {
         return new ClaimsPrincipal(new ClaimsIdentity(
-            new[] { new Claim(ClaimTypes.NameIdentifier, userId.ToString()) },
+            new[]
+            {
+                new Claim(ClaimTypes.NameIdentifier, userId.ToString()),
+                new Claim(ClaimTypes.Role, UserRole.User.ToString())
+            },
             authenticationType: "Test"));
     }
 

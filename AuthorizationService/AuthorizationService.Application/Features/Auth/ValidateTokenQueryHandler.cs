@@ -1,5 +1,6 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using AuthorizationService.Db.Models;
 using AuthorizationService.Db.Repositories;
 using MediatR;
 
@@ -22,8 +23,14 @@ public sealed class ValidateTokenQueryHandler : IRequestHandler<ValidateTokenQue
             return null;
         }
 
+        var userRole = GetUserRole(request.User);
+        if (userRole is null)
+        {
+            return null;
+        }
+
         var user = await _userRepository.GetByIdAsync(userId.Value, cancellationToken);
-        return user?.Id;
+        return user is not null && user.Role == userRole ? user.Id : null;
     }
 
     internal static Guid? GetUserId(ClaimsPrincipal user)
@@ -33,6 +40,16 @@ public sealed class ValidateTokenQueryHandler : IRequestHandler<ValidateTokenQue
 
         return userIdClaim is not null && Guid.TryParse(userIdClaim.Value, out var userId)
             ? userId
+            : null;
+    }
+
+    public static UserRole? GetUserRole(ClaimsPrincipal user)
+    {
+        var roleClaim = user.FindFirst(ClaimTypes.Role);
+
+        return roleClaim is not null &&
+               Enum.TryParse<UserRole>(roleClaim.Value, ignoreCase: true, out var role)
+            ? role
             : null;
     }
 }

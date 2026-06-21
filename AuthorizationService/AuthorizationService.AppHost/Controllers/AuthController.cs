@@ -1,3 +1,4 @@
+using AuthorizationService.Application.Features.Auth;
 using AuthorizationService.Application.Mappers;
 using AuthorizationService.Application.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -93,7 +94,14 @@ public class AuthController : ControllerBase
             return Unauthorized();
         }
 
+        var userRole = ValidateTokenQueryHandler.GetUserRole(User);
+        if (userRole is null)
+        {
+            return Unauthorized();
+        }
+
         Response.Headers.Append("X-User-Id", userId.Value.ToString());
+        Response.Headers.Append("X-User-Role", userRole.Value.ToString());
         return Ok();
     }
 
